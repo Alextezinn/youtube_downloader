@@ -17,5 +17,5 @@ class YouTubeVideoDownloaderHighestResolution(YouTube):
                                audiofile = "name.webm",
                                outputfile="output.mp4"):
 
-        command_cmd = f"ffmpeg -y -i '{videofile}' -i '{audiofile}' -map 0:v -map 1:a -c copy -strict -2 {outputfile}"
+        command_cmd = f"ffmpeg -y -i \"{videofile}\" -i \"{audiofile}\" -map 0:v -map 1:a -c copy -strict -2 \"{outputfile}\""
         os.system(command_cmd)
