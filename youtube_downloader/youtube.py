@@ -97,6 +97,7 @@ class YouTubeVideoDownloaderHighestResolution(YouTube):
         video_stream.download(output_path=output_path, filename=filename)
         audio_stream.download(output_path=output_path, filename=filename)
 
+    @staticmethod
     def merge_audio_with_video(videofile: str="name.mp4",
                                audiofile: str="name.webm",
                                outputfile: str="output.mp4") -> None:
