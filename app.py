@@ -1,16 +1,20 @@
 from pathlib import Path
 
+import click
+
 from youtube_downloader.youtube import YouTubeVideoDownloaderHighestResolution
 
 
-def main():
+@click.command()
+@click.option('--url', '-u', required=True, type=str, help='Youtube video url')
+def main(url: str) -> None:
     current_dir = Path.cwd()
 
     if not (current_dir / Path('download')).exists():
         Path.mkdir(current_dir / Path('download'))
 
     youtube = YouTubeVideoDownloaderHighestResolution(
-        url="url на видео с ютуба"
+        url=url
     )
 
     youtube.download_video(output_path=str(current_dir / Path('download')))
@@ -18,7 +22,7 @@ def main():
     files = list(Path.iterdir(current_dir / Path('download')))
 
     if len(files) != 2:
-        print("Ошибка! В папке должно быть два файла: аудио и видео")
+        click.secho("Ошибка! В папке должно быть два файла: аудио и видео", fg='red')
     else:
         if not (current_dir / Path('output')).exists():
             Path.mkdir(current_dir / Path('output'))
@@ -37,7 +41,6 @@ def main():
                 audiofile=str(files[0]),
                 outputfile=str(current_dir / Path('output') / files[1].parts[-1])
             )
-
     for file in Path.iterdir(current_dir / Path('download')):
         Path.unlink(current_dir / Path('download') / file)
 

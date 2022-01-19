@@ -3,6 +3,7 @@ from typing import Optional, List, Iterator
 from urllib.error import HTTPError
 
 import pytube
+import click
 from pytube import YouTube, Stream, extract, exceptions, request
 
 
@@ -23,15 +24,15 @@ class YouTubeStream(Stream):
         )
 
         if skip_existing and self.exists_at_path(file_path):
-            print(f'Файл {file_path} уже существует')
+            click.secho(f'Файл {file_path} уже существует', fg="red")
             self.on_complete(file_path)
             return file_path
 
         bytes_remaining = self.filesize
-        print(f'Скачивается ({self.filesize} всего байт) файл в {file_path}')
+        click.secho(f'Скачивается ({self.filesize} всего байт) файл в {file_path}', fg='blue')
 
         for download_percent in self.download_byte(file_path, bytes_remaining):
-            print(f"Скачано {int(download_percent)}%")
+            click.secho(f"Скачано {int(download_percent)}%", fg='blue')
 
         self.on_complete(file_path)
         return file_path
